@@ -184,7 +184,7 @@
     0 24px 80px rgba(0, 0, 0, 0.5),
     0 4px 24px rgba(0, 0, 0, 0.3);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Subtle top accent line */
