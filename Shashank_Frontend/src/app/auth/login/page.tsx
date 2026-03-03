@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useDescope } from '@descope/nextjs-sdk/client'
@@ -202,13 +202,13 @@ export default function LoginPage() {
             { val: '12K+', lbl: 'Placed' },
             { val: '4.9★', lbl: 'Rating' },
           ].map((s, i) => (
-            <>
-              {i > 0 && <div key={`d${i}`} className="auth-stat-div" />}
-              <div key={s.lbl} className="auth-stat">
+            <Fragment key={s.lbl}>
+              {i > 0 && <div className="auth-stat-div" />}
+              <div className="auth-stat">
                 <div className="auth-stat-val">{s.val}</div>
                 <div className="auth-stat-lbl">{s.lbl}</div>
               </div>
-            </>
+            </Fragment>
           ))}
         </div>
       </div>
