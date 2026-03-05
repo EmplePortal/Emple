@@ -310,6 +310,38 @@
   line-height: 1;
   flex-shrink: 0;
 }
+/* ── Social icon-only buttons ── */
+.auth-socials-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-social-icon-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--clr-surface2);
+  border: 1.5px solid var(--clr-border2);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  color: var(--clr-text2);
+}
+
+.auth-social-icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.auth-social-icon-btn.google:hover    { border-color: #4285F4; }
+.auth-social-icon-btn.github:hover    { border-color: #ffffff; }
+.auth-social-icon-btn.microsoft:hover { border-color: #00a4ef; }
 
 /* ── Divider ── */
 .auth-divider {
