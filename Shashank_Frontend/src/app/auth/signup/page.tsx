@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useDescope } from '@descope/nextjs-sdk/client'
+import { useSession, useDescope } from '@descope/nextjs-sdk/client'
 import AuthLayout from '@/view/auth/components/AuthLayout'
 import '@/view/auth/auth.css'
 
@@ -30,17 +30,28 @@ export default function SignupPage() {
   const [error, setError] = useState('')
   const router = useRouter()
   const sdk = useDescope()
+  const { session, isSessionLoading } = useSession() as any
 
   const strength = getPasswordStrength(form.password)
+
+  // ALL hooks pehle — phir return
+  useEffect(() => {
+    if (!isSessionLoading && session?.token) {
+      router.replace('/user/dashboard')
+    }
+  }, [session, isSessionLoading])
 
   const update = useCallback((field: string, value: string) => {
     setForm((f) => ({ ...f, [field]: value }))
   }, [])
 
+  // Saare hooks ke BAAD return null
+  if (isSessionLoading) return null
+
   const handleSocialLogin = async (provider: 'google' | 'github' | 'microsoft') => {
     try {
       const redirectUrl = `${window.location.origin}/auth/callback`
-      const result = await sdk.oauth.start(provider, redirectUrl)
+      const result = await sdk.oauth.start(provider, redirectUrl + '?prompt=select_account')
       if (result.ok && result.data?.url) {
         window.location.href = result.data.url
       }
@@ -73,7 +84,7 @@ export default function SignupPage() {
     try {
       const resp = await sdk.password.signUp(form.email, form.password, { name: form.name })
       if (resp.ok) {
-        router.push('/user/dashboard')
+        router.replace('/user/dashboard')
       } else {
         setError('Signup failed. Email may already be registered.')
       }
